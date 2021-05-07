@@ -1,0 +1,41 @@
+---
+title: "New Post"
+author: ''
+date: '2021-05-05'
+slug: stat
+categories: []
+tags: []
+description: ''
+---
+
+
+*Does this work? I can't tell.*
+
+[Link to project 1](/project/project1/)
+
+[Link to google](https://www.google.com)
+
+```{R}
+
+Numbers<-c(67,72,74,62,56,66,65,59,61,69)
+hist(Numbers)
+
+library(reticulate)
+
+
+```
+
+```{python}
+
+
+print("Hello???")
+print("Hey there")
+
+2+2
+
+```
+
+![](/post/2021-05-07-blog-post-1_files/IMG_1382.jpeg)
+
+*Photo of the cows that live next to my grandma!*
+

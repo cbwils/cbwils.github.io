@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Caitlyn Wilson</title>
+    <link>/</link>
+    <description>Recent content on Caitlyn Wilson</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Wed, 05 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>New Post</title>
+      <link>/post/2021/05/05/stat/</link>
+      <pubDate>Wed, 05 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2021/05/05/stat/</guid>
+      <description>Does this work? I can’t tell.
+Link to project 1
+Link to google
+Numbers&amp;lt;-c(67,72,74,62,56,66,65,59,61,69) hist(Numbers) library(reticulate)  print(&amp;quot;Hello???&amp;quot;) ## Hello??? print(&amp;quot;Hey there&amp;quot;) ## Hey there 2+2 ## 4 Photo of the cows that live next to my grandma!</description>
+    </item>
+    
+    <item>
+      <title>Project 1 : Exploratory Data Analysis</title>
+      <link>/project/project1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/project1/</guid>
+      <description>Caitlyn Wilson cbw2228 This project is due on Apr 4 at 11:59pm. Please submit as a knitted HTML file on Canvas.
+For all questions, include the R commands/functions that you used to find your answer. Answers without supporting code will not receive credit.
+ Review of how to submit this assignment All projects will be completed using R Markdown. These .Rmd files consist of text/syntax (formatted using Markdown) alongside embedded R code.</description>
+    </item>
+    
+    <item>
+      <title>Project 2</title>
+      <link>/project/project2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/project2/</guid>
+      <description>Caitlyn Wilson cbw2228 This Project is due on May 7, 2021 at 11:59pm. Please submit as an HTML file on Canvas.
+For all questions, include the R commands/functions that you used to find your answer. Answers without supporting code will not receive credit.
+ Review of how to submit this assignment All homework assignments will be completed using R Markdown. These .Rmd files consist of &amp;gt;text/syntax (formatted using Markdown) alongside embedded R code.</description>
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>/projects/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/</guid>
+      <description> Check out some of my coding projects below:
+ Wrangling &amp;amp; Exploratory Data Analysis
+ Modeling, Inference, Prediction
+  -- </description>
+    </item>
+    
+    <item>
+      <title>Resume</title>
+      <link>/resume/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/resume/</guid>
+      <description>    </description>
+    </item>
+    
+  </channel>
+</rss>

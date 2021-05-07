@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Caitlyn Wilson" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../img/favicon.ico">
+    <title>Project 1 : Exploratory Data Analysis</title>
+    <meta name="generator" content="Hugo 0.83.1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../../"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="../../post/">BLOG</a></li>
+        
+        <li><a href="../../projects/">PROJECTS</a></li>
+        
+        <li><a href="../../resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="../../project/project1/">Project 1 : Exploratory Data Analysis</a></strong>
+          </h3>
+        </div>
+ 
+<div class="blog-title">
+          <h4>
+         January 1, 0001 
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+<script src="../../rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="../../rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+
+
+<div id="caitlyn-wilson-cbw2228" class="section level2">
+<h2>Caitlyn Wilson cbw2228</h2>
+<p><strong>This project is due on Apr 4 at 11:59pm. Please submit as a knitted HTML file on Canvas.</strong></p>
+<p><em>For all questions, include the R commands/functions that you used to find your answer. Answers without supporting code will not receive credit.</em></p>
+<blockquote>
+<p><strong>Review of how to submit this assignment</strong>
+All projects will be completed using R Markdown. These <code>.Rmd</code> files consist of text/syntax (formatted using Markdown) alongside embedded R code.
+When you have completed the assignment (by adding R code inside codeblocks and supporting text outside of the codeblocks), create your document as follows:</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>Click the arrow next to the “Knit” button (above)</li>
+<li>Choose “Knit to HTML” and wait; fix any errors if applicable</li>
+<li>Go to Files pane and put checkmark next to the correct HTML file</li>
+<li>Click on the blue gear icon (“More”) and click Export</li>
+<li>Download the file and then upload to Canvas</li>
+</ul>
+</blockquote>
+<hr />
+<div id="introduction" class="section level3">
+<h3>0 (Introduction)</h3>
+<div id="write-a-narrative-introductory-paragraph-or-two-describing-the-datasets-you-have-chosen-the-variables-they-contain-how-they-were-acquired-and-why-they-are-interesting-to-you.-expand-on-potential-associations-you-may-expect-if-any." class="section level4">
+<h4>Write a narrative introductory paragraph or two describing the datasets you have chosen, the variables they contain, how they were acquired, and why they are interesting to you. Expand on potential associations you may expect, if any.</h4>
+<pre class="r"><code>library(tidyverse)
+library(kableExtra)
+library(GGally)
+library(cluster)</code></pre>
+<pre class="r"><code>library(tidyverse)
+library(kableExtra)
+library(GGally)
+library(cluster)</code></pre>
+<p><em>The first data frame that was chosen, USArrests, was collected in 1973 and has 50 observations with 4 variables. The 50 observations represent the 50 states of the United States of America. The four variables include Murder (number of murder-related arrests per 100,000), Assault (number of assault-related arrests per 100,000), UrbanPop (percent of urban population), and Rape (number of rape-related arrests per 100,000). The second data frame, state_info, has 51 observations and four variables. The 51 observations represent the 50 states of the United States of America, with the District of Columbia. The four variables include the state, the state_abbrev (the abbreviation of each state), the division (geographically describes the states) and the region (describes the location of the state). These datasets were accessed through the fivethirtyeight package. ‘USArrests’ and ‘state_info’ were interesting, because together they take a detailed look of not only the amount of arrests that happened in 1973, but also categorize them into the types of arrests that were made and specify the relative environments that they happened in.With this information, trends such as the most common type of arrests, states that have the most arrests for specific types of arrests made, and whether the presence of urban population plays a role in the likelihood of an arrest-type made can be found in from the two datasets. It is predicted the most common type of arrest will be assault, followed by rape and then murder. It is also predicted that there will be a strong, positive correlation between the amount of urban population present in a state and the amount of crime that happens.</em></p>
+</div>
+</div>
+<div id="tidying-rearranging-widelong" class="section level3">
+<h3>1 (Tidying: Rearranging Wide/Long)</h3>
+<div id="tidy-the-datasets-using-the-tidyr-functions-pivot_longergather-andor-pivot_widerspread.-if-you-data-sets-are-already-tidy-be-sure-to-use-those-functions-somewhere-else-in-your-project-e.g.-for-rearranging-summary-statistics.-document-the-process-describe-in-words-what-was-done." class="section level4">
+<h4>Tidy the datasets (using the tidyr functions pivot_longer/gather and/or pivot_wider/spread). If you data sets are already tidy, be sure to use those functions somewhere else in your project (e.g., for rearranging summary statistics). Document the process (describe in words what was done).</h4>
+<pre class="r"><code># found in #3</code></pre>
+</div>
+</div>
+<div id="joiningmerging" class="section level3">
+<h3>2 (Joining/Merging)</h3>
+<div id="join-your-datasets-into-one-using-a-dplyr-join-function.-if-you-have-multiple-observations-on-the-joining-variable-in-either-dataset-fix-this-by-collapsing-via-summarize.-discuss-the-process-in-words-including-why-you-chose-the-join-you-did.-discuss-which-cases-were-dropped-if-any-and-potential-problems-with-this." class="section level4">
+<h4>Join your datasets into one using a dplyr join function. If you have multiple observations on the joining variable in either dataset, fix this by collapsing via summarize. Discuss the process in words, including why you chose the join you did. Discuss which cases were dropped, if any, and potential problems with this.</h4>
+<pre class="r"><code>library(fivethirtyeight)
+
+
+state_info = state_info[-51, ]
+USArrests &lt;- tibble::rownames_to_column(USArrests, 
+    &quot;state&quot;)
+
+inarr &lt;- full_join(state_info, USArrests, by = &quot;state&quot;)</code></pre>
+<p><em>For the dataset ‘USArrests’, the states were originally structured as rownames. The states were shifted to a column named, “state”, so that the states could have their own designated column and the two datasets could have a common variable to join. In order to combine the data frames ‘USArrests’ and ‘state_info’, a ‘full_join’ was used as a way to retain all of the original data from both datasets. Before a ‘full_join’ was done, the ‘District of Columbia’ row was removed from ‘state_info’, because although it had the geographical descriptive variables, it was not included in the USArrests dataframe, so it would only produce ‘NA’s when looking at the numerical data. The two data frames were joined by the common variable of ‘state’. The datasets combined together were named as ‘inarr’.</em></p>
+</div>
+</div>
+<div id="wrangling" class="section level3">
+<h3>3 (Wrangling)</h3>
+<div id="take" class="section level4">
+<h4>Take</h4>
+<pre class="r"><code># your code here
+
+inarr %&gt;% select(-&quot;state_abbrev&quot;) %&gt;% select(-&quot;state&quot;) %&gt;% 
+    select(-&quot;division&quot;) %&gt;% select(-&quot;region&quot;) %&gt;% summary() %&gt;% 
+    kbl() %&gt;% kable_material_dark()</code></pre>
+<table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Murder
+</th>
+<th style="text-align:left;">
+Assault
+</th>
+<th style="text-align:left;">
+UrbanPop
+</th>
+<th style="text-align:left;">
+Rape
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Min. : 0.800
+</td>
+<td style="text-align:left;">
+Min. : 45.0
+</td>
+<td style="text-align:left;">
+Min. :32.00
+</td>
+<td style="text-align:left;">
+Min. : 7.30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+1st Qu.: 4.075
+</td>
+<td style="text-align:left;">
+1st Qu.:109.0
+</td>
+<td style="text-align:left;">
+1st Qu.:54.50
+</td>
+<td style="text-align:left;">
+1st Qu.:15.07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Median : 7.250
+</td>
+<td style="text-align:left;">
+Median :159.0
+</td>
+<td style="text-align:left;">
+Median :66.00
+</td>
+<td style="text-align:left;">
+Median :20.10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Mean : 7.788
+</td>
+<td style="text-align:left;">
+Mean :170.8
+</td>
+<td style="text-align:left;">
+Mean :65.54
+</td>
+<td style="text-align:left;">
+Mean :21.23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+3rd Qu.:11.250
+</td>
+<td style="text-align:left;">
+3rd Qu.:249.0
+</td>
+<td style="text-align:left;">
+3rd Qu.:77.75
+</td>
+<td style="text-align:left;">
+3rd Qu.:26.18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Max. :17.400
+</td>
+<td style="text-align:left;">
+Max. :337.0
+</td>
+<td style="text-align:left;">
+Max. :91.00
+</td>
+<td style="text-align:left;">
+Max. :46.00
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>inarr %&gt;% summarize_all(n_distinct) %&gt;% kbl() %&gt;% kable_material_dark()</code></pre>
+<table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:right;">
+state
+</th>
+<th style="text-align:right;">
+state_abbrev
+</th>
+<th style="text-align:right;">
+division
+</th>
+<th style="text-align:right;">
+region
+</th>
+<th style="text-align:right;">
+Murder
+</th>
+<th style="text-align:right;">
+Assault
+</th>
+<th style="text-align:right;">
+UrbanPop
+</th>
+<th style="text-align:right;">
+Rape
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+48
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>inarrcrime &lt;- inarr %&gt;% pivot_longer(c(&quot;Murder&quot;, &quot;Assault&quot;, 
+    &quot;Rape&quot;), names_to = &quot;CrimeArrestType&quot;, values_to = &quot;Crimesper100k&quot;)
+
+inarrcrime %&gt;% arrange(desc(Crimesper100k)) %&gt;% head(10, 
+    ) %&gt;% kbl() %&gt;% kable_material_dark()</code></pre>
+<table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+state
+</th>
+<th style="text-align:left;">
+state_abbrev
+</th>
+<th style="text-align:left;">
+division
+</th>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:right;">
+UrbanPop
+</th>
+<th style="text-align:left;">
+CrimeArrestType
+</th>
+<th style="text-align:right;">
+Crimesper100k
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+North Carolina
+</td>
+<td style="text-align:left;">
+NC
+</td>
+<td style="text-align:left;">
+South Atlantic
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+337
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Florida
+</td>
+<td style="text-align:left;">
+FL
+</td>
+<td style="text-align:left;">
+South Atlantic
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+335
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+MD
+</td>
+<td style="text-align:left;">
+South Atlantic
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+67
+</td>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+300
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Arizona
+</td>
+<td style="text-align:left;">
+AZ
+</td>
+<td style="text-align:left;">
+Mountain
+</td>
+<td style="text-align:left;">
+West
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+294
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+New Mexico
+</td>
+<td style="text-align:left;">
+NM
+</td>
+<td style="text-align:left;">
+Mountain
+</td>
+<td style="text-align:left;">
+West
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+285
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+South Carolina
+</td>
+<td style="text-align:left;">
+SC
+</td>
+<td style="text-align:left;">
+South Atlantic
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+48
+</td>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+279
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+California
+</td>
+<td style="text-align:left;">
+CA
+</td>
+<td style="text-align:left;">
+Pacific
+</td>
+<td style="text-align:left;">
+West
+</td>
+<td style="text-align:right;">
+91
+</td>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+276
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alaska
+</td>
+<td style="text-align:left;">
+AK
+</td>
+<td style="text-align:left;">
+Pacific
+</td>
+<td style="text-align:left;">
+West
+</td>
+<td style="text-align:right;">
+48
+</td>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+263
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mississippi
+</td>
+<td style="text-align:left;">
+MS
+</td>
+<td style="text-align:left;">
+East South Central
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+259
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Michigan
+</td>
+<td style="text-align:left;">
+MI
+</td>
+<td style="text-align:left;">
+East North Central
+</td>
+<td style="text-align:left;">
+Midwest
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+255
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>inarr %&gt;% group_by(division, region) %&gt;% summarise(Mean.UrbanPop = mean(UrbanPop), 
+    SD.UrbanPop = sd(UrbanPop), Mean.Murder = mean(Murder), 
+    SD.Murder = sd(Murder), Mean.Assault = mean(Assault), 
+    SD.Assault = sd(Assault), Mean.Rape = mean(Rape), 
+    SD.Rape = sd(Rape)) %&gt;% kbl(col.names = c(&quot;Division&quot;, 
+    &quot;Region&quot;, &quot;Mean UrbanPop&quot;, &quot;UrbanPop SD&quot;, &quot;Mean Murder&quot;, 
+    &quot;Murder SD&quot;, &quot;Mean Assault&quot;, &quot;Assault SD&quot;, &quot;Mean Rape&quot;, 
+    &quot;Rape SD&quot;)) %&gt;% kable_material_dark()</code></pre>
+<table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+Division
+</th>
+<th style="text-align:left;">
+Region
+</th>
+<th style="text-align:right;">
+Mean UrbanPop
+</th>
+<th style="text-align:right;">
+UrbanPop SD
+</th>
+<th style="text-align:right;">
+Mean Murder
+</th>
+<th style="text-align:right;">
+Murder SD
+</th>
+<th style="text-align:right;">
+Mean Assault
+</th>
+<th style="text-align:right;">
+Assault SD
+</th>
+<th style="text-align:right;">
+Mean Rape
+</th>
+<th style="text-align:right;">
+Rape SD
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+East North Central
+</td>
+<td style="text-align:left;">
+Midwest
+</td>
+<td style="text-align:right;">
+72.60000
+</td>
+<td style="text-align:right;">
+7.368853
+</td>
+<td style="text-align:right;">
+7.920000
+</td>
+<td style="text-align:right;">
+3.6341436
+</td>
+<td style="text-align:right;">
+158.00000
+</td>
+<td style="text-align:right;">
+89.69950
+</td>
+<td style="text-align:right;">
+22.46000
+</td>
+<td style="text-align:right;">
+8.679747
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+East South Central
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+53.25000
+</td>
+<td style="text-align:right;">
+6.898067
+</td>
+<td style="text-align:right;">
+13.050000
+</td>
+<td style="text-align:right;">
+2.6185238
+</td>
+<td style="text-align:right;">
+198.00000
+</td>
+<td style="text-align:right;">
+66.29731
+</td>
+<td style="text-align:right;">
+20.37500
+</td>
+<td style="text-align:right;">
+4.850687
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mid-Atlantic
+</td>
+<td style="text-align:left;">
+Northeast
+</td>
+<td style="text-align:right;">
+82.33333
+</td>
+<td style="text-align:right;">
+9.073772
+</td>
+<td style="text-align:right;">
+8.266667
+</td>
+<td style="text-align:right;">
+2.5146239
+</td>
+<td style="text-align:right;">
+173.00000
+</td>
+<td style="text-align:right;">
+74.98667
+</td>
+<td style="text-align:right;">
+19.93333
+</td>
+<td style="text-align:right;">
+5.685361
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mountain
+</td>
+<td style="text-align:left;">
+West
+</td>
+<td style="text-align:right;">
+69.50000
+</td>
+<td style="text-align:right;">
+12.118463
+</td>
+<td style="text-align:right;">
+7.275000
+</td>
+<td style="text-align:right;">
+3.4362563
+</td>
+<td style="text-align:right;">
+193.12500
+</td>
+<td style="text-align:right;">
+76.53652
+</td>
+<td style="text-align:right;">
+27.11250
+</td>
+<td style="text-align:right;">
+11.727676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+New England
+</td>
+<td style="text-align:left;">
+Northeast
+</td>
+<td style="text-align:right;">
+64.66667
+</td>
+<td style="text-align:right;">
+21.878452
+</td>
+<td style="text-align:right;">
+2.916667
+</td>
+<td style="text-align:right;">
+0.9410986
+</td>
+<td style="text-align:right;">
+103.50000
+</td>
+<td style="text-align:right;">
+50.48861
+</td>
+<td style="text-align:right;">
+10.70000
+</td>
+<td style="text-align:right;">
+3.078311
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Pacific
+</td>
+<td style="text-align:left;">
+West
+</td>
+<td style="text-align:right;">
+72.40000
+</td>
+<td style="text-align:right;">
+16.456002
+</td>
+<td style="text-align:right;">
+6.640000
+</td>
+<td style="text-align:right;">
+2.6763781
+</td>
+<td style="text-align:right;">
+177.80000
+</td>
+<td style="text-align:right;">
+94.47592
+</td>
+<td style="text-align:right;">
+32.16000
+</td>
+<td style="text-align:right;">
+10.127339
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+South Atlantic
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+59.25000
+</td>
+<td style="text-align:right;">
+14.179966
+</td>
+<td style="text-align:right;">
+11.450000
+</td>
+<td style="text-align:right;">
+4.3866681
+</td>
+<td style="text-align:right;">
+242.12500
+</td>
+<td style="text-align:right;">
+90.00069
+</td>
+<td style="text-align:right;">
+21.23750
+</td>
+<td style="text-align:right;">
+7.347679
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+West North Central
+</td>
+<td style="text-align:left;">
+Midwest
+</td>
+<td style="text-align:right;">
+58.57143
+</td>
+<td style="text-align:right;">
+10.422046
+</td>
+<td style="text-align:right;">
+4.114286
+</td>
+<td style="text-align:right;">
+2.7144236
+</td>
+<td style="text-align:right;">
+93.42857
+</td>
+<td style="text-align:right;">
+44.63129
+</td>
+<td style="text-align:right;">
+15.57143
+</td>
+<td style="text-align:right;">
+6.595886
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+West South Central
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+66.00000
+</td>
+<td style="text-align:right;">
+12.328828
+</td>
+<td style="text-align:right;">
+10.875000
+</td>
+<td style="text-align:right;">
+3.9322385
+</td>
+<td style="text-align:right;">
+197.75000
+</td>
+<td style="text-align:right;">
+40.34332
+</td>
+<td style="text-align:right;">
+21.80000
+</td>
+<td style="text-align:right;">
+2.731300
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>inarr %&gt;% filter(UrbanPop == max(UrbanPop)) %&gt;% arrange(desc(UrbanPop)) %&gt;% 
+    kbl() %&gt;% kable_material_dark()</code></pre>
+<table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+state
+</th>
+<th style="text-align:left;">
+state_abbrev
+</th>
+<th style="text-align:left;">
+division
+</th>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:right;">
+Murder
+</th>
+<th style="text-align:right;">
+Assault
+</th>
+<th style="text-align:right;">
+UrbanPop
+</th>
+<th style="text-align:right;">
+Rape
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+California
+</td>
+<td style="text-align:left;">
+CA
+</td>
+<td style="text-align:left;">
+Pacific
+</td>
+<td style="text-align:left;">
+West
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+276
+</td>
+<td style="text-align:right;">
+91
+</td>
+<td style="text-align:right;">
+40.6
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>inarr %&gt;% filter(UrbanPop == min(UrbanPop)) %&gt;% arrange(desc(UrbanPop)) %&gt;% 
+    kbl() %&gt;% kable_material_dark()</code></pre>
+<table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+state
+</th>
+<th style="text-align:left;">
+state_abbrev
+</th>
+<th style="text-align:left;">
+division
+</th>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:right;">
+Murder
+</th>
+<th style="text-align:right;">
+Assault
+</th>
+<th style="text-align:right;">
+UrbanPop
+</th>
+<th style="text-align:right;">
+Rape
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Vermont
+</td>
+<td style="text-align:left;">
+VT
+</td>
+<td style="text-align:left;">
+New England
+</td>
+<td style="text-align:left;">
+Northeast
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:right;">
+48
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+11.2
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>inarr %&gt;% group_by(division, region) %&gt;% summarize(mean_assault = mean(Assault, 
+    na.rm = T), mean_murder = mean(Murder, na.rm = T), 
+    mean_rape = mean(Rape, na.rm = T)) %&gt;% arrange(desc(mean_assault)) %&gt;% 
+    kbl() %&gt;% kable_material_dark()</code></pre>
+<table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+division
+</th>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:right;">
+mean_assault
+</th>
+<th style="text-align:right;">
+mean_murder
+</th>
+<th style="text-align:right;">
+mean_rape
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+South Atlantic
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+242.12500
+</td>
+<td style="text-align:right;">
+11.450000
+</td>
+<td style="text-align:right;">
+21.23750
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+East South Central
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+198.00000
+</td>
+<td style="text-align:right;">
+13.050000
+</td>
+<td style="text-align:right;">
+20.37500
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+West South Central
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+197.75000
+</td>
+<td style="text-align:right;">
+10.875000
+</td>
+<td style="text-align:right;">
+21.80000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mountain
+</td>
+<td style="text-align:left;">
+West
+</td>
+<td style="text-align:right;">
+193.12500
+</td>
+<td style="text-align:right;">
+7.275000
+</td>
+<td style="text-align:right;">
+27.11250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Pacific
+</td>
+<td style="text-align:left;">
+West
+</td>
+<td style="text-align:right;">
+177.80000
+</td>
+<td style="text-align:right;">
+6.640000
+</td>
+<td style="text-align:right;">
+32.16000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mid-Atlantic
+</td>
+<td style="text-align:left;">
+Northeast
+</td>
+<td style="text-align:right;">
+173.00000
+</td>
+<td style="text-align:right;">
+8.266667
+</td>
+<td style="text-align:right;">
+19.93333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+East North Central
+</td>
+<td style="text-align:left;">
+Midwest
+</td>
+<td style="text-align:right;">
+158.00000
+</td>
+<td style="text-align:right;">
+7.920000
+</td>
+<td style="text-align:right;">
+22.46000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+New England
+</td>
+<td style="text-align:left;">
+Northeast
+</td>
+<td style="text-align:right;">
+103.50000
+</td>
+<td style="text-align:right;">
+2.916667
+</td>
+<td style="text-align:right;">
+10.70000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+West North Central
+</td>
+<td style="text-align:left;">
+Midwest
+</td>
+<td style="text-align:right;">
+93.42857
+</td>
+<td style="text-align:right;">
+4.114286
+</td>
+<td style="text-align:right;">
+15.57143
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>inarr %&gt;% group_by(region) %&gt;% summarize(mean_assault = mean(Assault, 
+    na.rm = T), sd_assault = sd(Assault, na.rm = T), 
+    count_assault = n(), se_assault = (sd_assault/sqrt(count_assault))) %&gt;% 
+    kbl() %&gt;% kable_material_dark()</code></pre>
+<table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:right;">
+mean_assault
+</th>
+<th style="text-align:right;">
+sd_assault
+</th>
+<th style="text-align:right;">
+count_assault
+</th>
+<th style="text-align:right;">
+se_assault
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Midwest
+</td>
+<td style="text-align:right;">
+120.3333
+</td>
+<td style="text-align:right;">
+71.53935
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+20.65163
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Northeast
+</td>
+<td style="text-align:right;">
+126.6667
+</td>
+<td style="text-align:right;">
+64.85754
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+21.61918
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:right;">
+220.0000
+</td>
+<td style="text-align:right;">
+74.20782
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+18.55195
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+West
+</td>
+<td style="text-align:right;">
+187.2308
+</td>
+<td style="text-align:right;">
+80.32761
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+22.27887
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># Mean of Urban Population in a state is 159.
+inarras &lt;- mutate(inarr, Status.of.Assault.Average = ifelse(Assault &gt; 
+    159, &quot;Above&quot;, &quot;Below&quot;))
+
+mydata &lt;- inarr[, c(5, 6, 7, 8)]
+my &lt;- cor(mydata)
+round(my, 2) %&gt;% kbl() %&gt;% kable_material_dark()</code></pre>
+<table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Murder
+</th>
+<th style="text-align:right;">
+Assault
+</th>
+<th style="text-align:right;">
+UrbanPop
+</th>
+<th style="text-align:right;">
+Rape
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Murder
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.80
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+0.56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assault
+</td>
+<td style="text-align:right;">
+0.80
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.26
+</td>
+<td style="text-align:right;">
+0.67
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UrbanPop
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+0.26
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rape
+</td>
+<td style="text-align:right;">
+0.56
+</td>
+<td style="text-align:right;">
+0.67
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>For all of the numerical data for ‘inarr’ the minimum, maximum, and mean (among other statistics) were calculated. This information supported a previous prediction of the most common type of arrest being assault, followed by rape and then murder. For assault-related arrests, 170.8 arrests were made on average amongst the states, and there was a median of 159. For rape-related arrests, 21.23 arrests were made on average amongst the states, and there was a median of 20.1. For murder-related arrests, 7.79 arrests were made on average amongst the states, and there was a median of 7.25. As assault-related arrests are the leading type of arrest, the top ten locations of the arrests were led by North Carolina, followed by Florida and Maryland in 1973. Grouping by the division and region of a state, the top three highest mean assaults occurred in the South region with division South Atlantic, East South Central, and West South Central (respectively). The highest three averages for assault-related arrests are 242.125, 198, and 197.75.
+When looking at the amount of urban population in the United States, California had the highest percentage of 91%. The smallest amount of urban population found in the United States was 32%, found in Vermont.</em></p>
+</div>
+</div>
+<div id="visualizing" class="section level3">
+<h3>4 (Visualizing)</h3>
+<div id="notice" class="section level4">
+<h4>Notice</h4>
+<pre class="r"><code># your code here
+
+# Correlation Heatmap
+inarr %&gt;% select_if(is.numeric) %&gt;% cor %&gt;% as.data.frame %&gt;% 
+    rownames_to_column %&gt;% pivot_longer(-1) %&gt;% ggplot(aes(rowname, 
+    name, fill = value)) + geom_tile() + geom_text(aes(label = round(value, 
+    2))) + xlab(&quot;&quot;) + ylab(&quot;&quot;) + coord_fixed() + ggtitle(&quot;Correlation Heatmap&quot;)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" />
+<em>Based on the correlation between the numeric variables of ‘inarr’, the strongest correlation is between ‘Murder’ and ‘Assault’ with a correlation coefficient of 0.8. The weakest correlation is between ‘UrbanPop’ and ‘Murder’ with a correlation coefficient of 0.07. Overall, ‘UrbanPop’ has the weakest correlation with each of the other variables. This information suggests that the presence of an urban population in a state has a very weak relationship with the amount of arrests for the three types of crime, which is contrary to the prediction originally made that there would be a strong correlation between the amount of urban population present in a state and the amount of crime that occurs. The second strongest correlation is between ‘Rape’ and ‘Assault’ with 0.67, followed by ‘Murder’ and ‘Rape’ with a correlation of 0.56.</em></p>
+<pre class="r"><code># your code here
+
+# geom_point
+plot1 &lt;- ggplot(data = inarr, aes(x = Assault, y = Murder)) + 
+    geom_point(aes(color = region), size = 0.5) + geom_point(aes(y = Murder, 
+    color = region), stat = &quot;summary&quot;, fun = mean, 
+    size = 5, shape = 18) + geom_point(aes(y = Murder), 
+    stat = &quot;summary&quot;, fun = mean, size = 1, color = &quot;black&quot;)
+
+
+plot1 + ggtitle(&quot;Assault Arrests vs. Murder Arrests&quot;) + 
+    ylab(&quot;Murder Arrests (per 100,000)&quot;) + xlab(&quot;Assault Arrests (per 100,000)&quot;)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" />
+<em>The plot is colored by region (Midwest, Northeast, South, and West). This graph was has plotted the mean murder arrests per 100,000 at each point for assault arrests per 100,000, colored and grouped by region. The overall mean murder arrests at each point for assault arrests per 100,000 was colored in black. A trend can be seen as states within the South having larger amounts of both assault arrests and murder arrests, combined. The state that has the lowest amount of assault arrests per 100,00 and murder arrests per 100,000 is found in the Midwest.</em></p>
+<pre class="r"><code># your code here
+
+# geombar
+ggplot(data = inarrcrime, aes(x = CrimeArrestType, 
+    fill = CrimeArrestType, y = Crimesper100k)) + geom_bar(stat = &quot;identity&quot;) + 
+    facet_wrap(~division, ncol = 3) + theme(axis.text.x = element_text(angle = 90)) + 
+    ggtitle(&quot;Crime Arrest Type vs. Crimes per 100,00 for Each Division&quot;)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" />
+<em>For each division, the specific type of crime-related arrest and the amount of arrests made per 100,000 was graphed. Looking at the patterns, the South Atlantic has the highest amount of assault-related arrests and murder-related arrests. Mountain has the highest amount of rape-related arrests. New England has the lowest amount of murder-related arrests. Overall, for each division, assault-related arrests was the most prevalent arrest type, followed by rape-related arrests, and then murder-related arrests. This finding is consistent with the prediction of the order of amounts of arrests based on the type of crime.</em></p>
+</div>
+</div>
+<div id="dimensionality-reduction" class="section level3">
+<h3>5 (Dimensionality Reduction)</h3>
+<div id="create" class="section level4">
+<h4>Create</h4>
+<pre class="r"><code># your code here
+
+library(cluster)
+pam_dat &lt;- inarr %&gt;% select_if(is.numeric)
+sil_width &lt;- vector()
+for (i in 2:10) {
+    pam_fit &lt;- pam(pam_dat, k = i)
+    sil_width[i] &lt;- pam_fit$silinfo$avg.width
+}
+ggplot() + geom_line(aes(x = 1:10, y = sil_width)) + 
+    scale_x_continuous(name = &quot;k&quot;, breaks = 1:10)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pam_dat &lt;- inarr %&gt;% select_if(is.numeric)
+pam1 &lt;- pam_dat %&gt;% pam(k = 2)
+pam1$silinfo$avg.width</code></pre>
+<pre><code>## [1] 0.5926554</code></pre>
+<pre class="r"><code>final &lt;- inarr %&gt;% mutate(cluster = as.factor(pam1$clustering))
+
+ggplot(final, aes(x = Assault, y = Murder, color = cluster)) + 
+    geom_point()</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>library(GGally)
+ggpairs(final, columns = c(&quot;Assault&quot;, &quot;Rape&quot;, &quot;Murder&quot;, 
+    &quot;UrbanPop&quot;), aes(color = cluster))</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-9-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(pam1, which = 2)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-9-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><em>The first graph demonstrates that it is ideal to cluster the data by 2 (the peak). The second graph visualizes, in two dimensions, and colors by cluster of all four variables. Because this is only seen on a two dimensional level, it is difficult to decipher how some points were decided between cluster 1 and cluster 2 when the values are near each other on the two dimensional graph. For the graph using ‘ggpairs’, this is taking ‘inarr’ and plots all possible scatterplots. Each scatterplot is showing a slice of a four dimensional space. For dimensions related to crime types, the first cluster of states has the lowest rap-related arrests, murder-related arrests. For the dimensions that involve the percent of urban population, the dimensions that had lower crime-related arrests had a wider range of UrbanPop. The two clusters have an average silhouette width of 0.58 and 0.60, so this means that it is a reasonable structure for clustering. </em></p>
+<pre><code>## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 18.04.5 LTS
+## 
+## Matrix products: default
+## BLAS:   /stor/system/opt/R/R-3.6.1/lib/R/lib/libRblas.so
+## LAPACK: /stor/system/opt/R/R-3.6.1/lib/R/lib/libRlapack.so
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] fivethirtyeight_0.6.1 cluster_2.1.0         GGally_2.1.0         
+##  [4] kableExtra_1.3.4.9000 forcats_0.5.0         stringr_1.4.0        
+##  [7] dplyr_1.0.2           purrr_0.3.4           readr_1.4.0          
+## [10] tidyr_1.1.2           tibble_3.1.0          ggplot2_3.3.3        
+## [13] tidyverse_1.3.0      
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.0.5         svglite_1.2.3.2    lubridate_1.7.9.2  assertthat_0.2.1  
+##  [5] digest_0.6.27      utf8_1.2.1         R6_2.5.0           cellranger_1.1.0  
+##  [9] plyr_1.8.6         backports_1.2.1    reprex_0.3.0       evaluate_0.14     
+## [13] highr_0.8          httr_1.4.2         blogdown_0.20      pillar_1.5.1      
+## [17] gdtools_0.2.3      rlang_0.4.10       readxl_1.3.1       rstudioapi_0.13   
+## [21] rmarkdown_2.6      labeling_0.4.2     webshot_0.5.2      munsell_0.5.0     
+## [25] broom_0.7.3        compiler_3.6.1     modelr_0.1.8       xfun_0.20         
+## [29] pkgconfig_2.0.3    systemfonts_0.3.2  htmltools_0.5.0    tidyselect_1.1.0  
+## [33] bookdown_0.21      reshape_0.8.8      fansi_0.4.2        viridisLite_0.3.0 
+## [37] crayon_1.4.1       dbplyr_2.0.0       withr_2.3.0        grid_3.6.1        
+## [41] jsonlite_1.7.2     gtable_0.3.0       lifecycle_1.0.0    DBI_1.1.0         
+## [45] magrittr_2.0.1     formatR_1.7        scales_1.1.1       cli_2.3.1         
+## [49] stringi_1.5.3      debugme_1.1.0      farver_2.0.3       fs_1.5.0          
+## [53] xml2_1.3.2         ellipsis_0.3.1     generics_0.1.0     vctrs_0.3.7       
+## [57] RColorBrewer_1.1-2 tools_3.6.1        glue_1.4.2         hms_0.5.3         
+## [61] yaml_2.2.1         colorspace_2.0-0   rvest_0.3.6        knitr_1.30        
+## [65] haven_2.3.1</code></pre>
+<pre><code>## [1] &quot;2021-05-07 06:37:01 CDT&quot;</code></pre>
+<pre><code>##                                        sysname 
+##                                        &quot;Linux&quot; 
+##                                        release 
+##                           &quot;4.15.0-142-generic&quot; 
+##                                        version 
+## &quot;#146-Ubuntu SMP Tue Apr 13 01:11:19 UTC 2021&quot; 
+##                                       nodename 
+##                   &quot;educcomp04.ccbb.utexas.edu&quot; 
+##                                        machine 
+##                                       &quot;x86_64&quot; 
+##                                          login 
+##                                      &quot;unknown&quot; 
+##                                           user 
+##                                      &quot;cbw2228&quot; 
+##                                 effective_user 
+##                                      &quot;cbw2228&quot;</code></pre>
+</div>
+</div>
+</div>
+
+            
+        <hr>         <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div> 
+            </div>
+          </div>
+
+   <hr>  <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> 
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="../../js/docs.min.js"></script>
+<script src="../../js/main.js"></script>
+
+<script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>

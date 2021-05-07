@@ -1,0 +1,218 @@
+---
+title: "Project 1 : Exploratory Data Analysis"
+author: "SDS348"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+```{r global_options, include=FALSE}
+#DO NOT EDIT THIS CHUNK OR ANYTHING ABOVE IT!
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, fig.align = "center", warning = F, message = F, tidy=T, tidy.opts=list(width.cutoff=50), R.options=list(max.print=100,dplyr.print_max=100))
+```
+
+## Caitlyn Wilson cbw2228
+
+**This project is due on Apr 4 at 11:59pm. Please submit as a knitted HTML file on Canvas.**
+
+*For all questions, include the R commands/functions that you used to find your answer. Answers without supporting code will not receive credit.*
+
+> **Review of how to submit this assignment**
+> All projects will be completed using R Markdown. These `.Rmd` files consist of text/syntax (formatted using Markdown) alongside embedded R code. 
+> When you have completed the assignment (by adding R code inside codeblocks and supporting text outside of the codeblocks), create your document as follows:
+
+> - Click the arrow next to the "Knit" button (above) 
+> - Choose "Knit to HTML" and wait; fix any errors if applicable
+> - Go to Files pane and put checkmark next to the correct HTML file
+> - Click on the blue gear icon ("More") and click Export
+> - Download the file and then upload to Canvas
+
+---
+
+
+### 0 (Introduction) 
+
+#### Write a narrative introductory paragraph or two describing the datasets you have chosen, the variables they contain, how they were acquired, and why they are interesting to you. Expand on potential associations you may expect, if any.
+
+```{R}
+library(tidyverse)
+library(kableExtra)
+library(GGally)
+library(cluster)
+
+```
+
+
+
+```{R}
+library(tidyverse)
+library(kableExtra)
+library(GGally)
+library(cluster)
+
+```
+
+*The first data frame that was chosen, USArrests, was collected in 1973 and has 50 observations with 4 variables. The 50 observations represent the 50 states of the United States of America. The four variables include Murder (number of murder-related arrests per 100,000), Assault (number of assault-related arrests per 100,000), UrbanPop (percent of urban population), and Rape (number of rape-related arrests per 100,000). The second data frame, state_info, has 51 observations and four variables. The 51 observations represent the 50 states of the United States of America, with the District of Columbia. The four variables include the state, the state_abbrev (the abbreviation of each state), the division (geographically describes the states) and the region (describes the location of the state). These datasets were accessed through the fivethirtyeight package. ‘USArrests’ and ‘state_info’ were interesting, because together they take a detailed look of not only the amount of arrests that happened in 1973, but also categorize them into the types of arrests that were made and specify the relative environments that they happened in.With this information, trends such as the most common type of arrests, states that have the most arrests for specific types of arrests made, and whether the presence of urban population plays a role in the likelihood of an arrest-type made can be found in from the two datasets. It is predicted the most common type of arrest will be assault, followed by rape and then murder. It is also predicted that there will be a strong, positive correlation between the amount of urban population present in a state and the amount of crime that happens.*
+
+### 1 (Tidying: Rearranging Wide/Long) 
+
+#### Tidy the datasets (using the tidyr functions pivot_longer/gather and/or pivot_wider/spread). If you data sets are already tidy, be sure to use those functions somewhere else in your project (e.g., for rearranging summary statistics). Document the process (describe in words what was done).
+
+```{R}
+# found in #3
+
+```
+
+### 2 (Joining/Merging) 
+
+#### Join your datasets into one using a dplyr join function. If you have multiple observations on the joining variable in either dataset, fix this by collapsing via summarize. Discuss the process in words, including why you chose the join you did. Discuss which cases were dropped, if any, and potential problems with this.
+
+
+```{R}
+library(fivethirtyeight)
+
+
+state_info = state_info[-51,]
+USArrests <- tibble::rownames_to_column(USArrests, "state")
+
+inarr<-full_join(state_info,USArrests, by="state")
+
+```
+
+*For the dataset ‘USArrests’, the states were originally structured as rownames. The states were shifted to a column named, “state”, so that the states could have their own designated column and the two datasets could have a common variable to join. In order to combine the data frames ‘USArrests’ and ‘state_info’, a ‘full_join’ was used as a way to retain all of the original data from both datasets. Before a ‘full_join’ was done, the ‘District of Columbia’ row was removed from ‘state_info’, because although it had the geographical descriptive variables, it was not included in the USArrests dataframe, so it would only produce ‘NA’s when looking at the numerical data. The two data frames were joined by the common variable of ‘state’. The datasets combined together were named as ‘inarr’.*
+
+### 3 (Wrangling) 
+
+#### Take
+
+```{R}
+#your code here
+
+inarr %>% select(-"state_abbrev") %>% select(-"state") %>% select(-"division") %>% select(-"region") %>% summary() %>% kbl() %>% kable_material_dark()
+
+inarr %>% summarize_all(n_distinct) %>% kbl() %>% kable_material_dark()
+
+inarrcrime<-inarr %>% pivot_longer(c("Murder","Assault","Rape"), names_to="CrimeArrestType",values_to="Crimesper100k")
+
+inarrcrime %>% arrange(desc(Crimesper100k)) %>% head(10,) %>% kbl() %>% kable_material_dark()
+
+
+inarr %>% group_by(division,region) %>% 
+  summarise(Mean.UrbanPop = mean(UrbanPop),
+            SD.UrbanPop = sd(UrbanPop),
+            Mean.Murder = mean(Murder),
+            SD.Murder = sd(Murder),
+            Mean.Assault = mean(Assault),
+            SD.Assault = sd(Assault),
+            Mean.Rape = mean(Rape),
+            SD.Rape = sd(Rape)) %>% kbl(col.names = c("Division","Region","Mean UrbanPop" ,"UrbanPop SD", "Mean Murder","Murder SD", "Mean Assault","Assault SD", "Mean Rape", "Rape SD")) %>% kable_material_dark()
+
+inarr %>% filter(UrbanPop == max(UrbanPop)) %>% arrange(desc(UrbanPop)) %>% kbl() %>% kable_material_dark()
+
+
+inarr %>% filter(UrbanPop == min(UrbanPop)) %>% arrange(desc(UrbanPop))%>% kbl() %>% kable_material_dark()
+
+
+inarr %>% group_by(division,region) %>% summarize(mean_assault = mean(Assault, na.rm = T), mean_murder = mean(Murder, na.rm = T), mean_rape = mean(Rape, na.rm = T)) %>% arrange(desc(mean_assault)) %>% kbl() %>% kable_material_dark()
+
+inarr %>% group_by(region) %>% summarize(mean_assault = mean(Assault, na.rm = T), sd_assault = sd(Assault, na.rm = T), count_assault = n(), se_assault = (sd_assault/sqrt(count_assault)))%>% kbl() %>% kable_material_dark()
+
+#Mean of Urban Population in a state is 159.
+inarras<-mutate(inarr, Status.of.Assault.Average = ifelse(Assault > 159, "Above","Below"))
+
+mydata <- inarr[, c(5,6,7,8)]
+my<-cor(mydata)
+round(my,2) %>% kbl() %>% kable_material_dark()
+
+```
+
+*For all of the numerical data for ‘inarr’ the minimum, maximum, and mean (among other statistics) were calculated. This information supported a previous prediction of the most common type of arrest being assault, followed by rape and then murder. For assault-related arrests, 170.8 arrests were made on average amongst the states, and there was a median of 159. For rape-related arrests, 21.23 arrests were made on average amongst the states, and there was a median of 20.1. For murder-related arrests, 7.79 arrests were made on average amongst the states, and there was a median of 7.25. As assault-related arrests are the leading type of arrest, the top ten locations of the arrests were led by North Carolina, followed by Florida and Maryland in 1973. Grouping by the division and region of a state, the top three highest mean assaults occurred in the South region with division South Atlantic, East South Central, and West South Central (respectively). The highest three averages for assault-related arrests are 242.125, 198, and 197.75.
+When looking at the amount of urban population in the United States, California had the highest percentage of 91%. The smallest amount of urban population found in the United States was 32%, found in Vermont.*
+
+
+
+### 4 (Visualizing) 
+
+#### Notice 
+
+```{R}
+#your code here
+
+#Correlation Heatmap
+inarr %>% select_if(is.numeric) %>% cor %>% as.data.frame %>%  rownames_to_column %>% pivot_longer(-1) %>%  ggplot(aes(rowname,name,fill=value))+geom_tile()+  geom_text(aes(label=round(value,2)))+  xlab("")+ylab("")+coord_fixed()+ggtitle("Correlation Heatmap")
+
+```
+*Based on the correlation between the numeric variables of ‘inarr’, the strongest correlation is between ‘Murder’ and ‘Assault’ with a correlation coefficient of 0.8. The weakest correlation is between ‘UrbanPop’ and ‘Murder’ with a correlation coefficient of 0.07. Overall, ‘UrbanPop’ has the weakest correlation with each of the other variables. This information suggests that the presence of an urban population in a state has a very weak relationship with the amount of arrests for the three types of crime, which is contrary to the prediction originally made that there would be a strong correlation between the amount of urban population present in a state and the amount of crime that occurs. The second strongest correlation is between ‘Rape’ and ‘Assault’ with 0.67, followed by ‘Murder’ and ‘Rape’ with a correlation of 0.56.*
+
+```{R}
+#your code here
+
+#geom_point
+plot1 <- ggplot(data = inarr, aes(x = Assault, y = Murder)) + 
+    geom_point(aes(color = region), size = 0.5) + geom_point(aes(y = Murder, 
+    color = region), stat = "summary", fun = mean, size = 5, 
+    shape = 18) + geom_point(aes(y = Murder), stat = "summary", 
+    fun = mean, size = 1, color = "black")
+
+
+plot1 + ggtitle("Assault Arrests vs. Murder Arrests") + ylab("Murder Arrests (per 100,000)") + 
+    xlab("Assault Arrests (per 100,000)")
+
+```
+*The plot is colored by region (Midwest, Northeast, South, and West). This graph was has plotted the mean murder arrests per 100,000 at each point for assault arrests per 100,000, colored and grouped by region. The overall mean murder arrests at each point for assault arrests per 100,000 was colored in black. A trend can be seen as states within the South having larger amounts of both assault arrests and murder arrests, combined. The state that has the lowest amount of assault arrests per 100,00 and murder arrests per 100,000 is found in the Midwest.*
+
+```{R}
+#your code here
+
+#geombar
+ggplot(data=inarrcrime, aes(x= CrimeArrestType,fill=CrimeArrestType,y= Crimesper100k)) + geom_bar(stat="identity") + facet_wrap(~division, ncol=3) + theme(axis.text.x = element_text(angle=90)) + ggtitle("Crime Arrest Type vs. Crimes per 100,00 for Each Division")
+```
+*For each division, the specific type of crime-related arrest and the amount of arrests made per 100,000 was graphed. Looking at the patterns, the South Atlantic has the highest amount of assault-related arrests and murder-related arrests. Mountain has the highest amount of rape-related arrests. New England has the lowest amount of murder-related arrests. Overall, for each division, assault-related arrests was the most prevalent arrest type, followed by rape-related arrests, and then murder-related arrests. This finding is consistent with the prediction of the order of amounts of arrests based on the type of crime.*
+
+###  5 (Dimensionality Reduction) 
+
+#### Create 
+
+```{R}
+#your code here
+
+library(cluster)
+pam_dat<-inarr%>%select_if(is.numeric)
+sil_width<-vector()
+for(i in 2:10){  
+  pam_fit <- pam(pam_dat, k = i)  
+  sil_width[i] <- pam_fit$silinfo$avg.width  
+}
+ggplot()+geom_line(aes(x=1:10,y=sil_width))+scale_x_continuous(name="k",breaks=1:10)
+
+pam_dat<-inarr%>%select_if(is.numeric)
+pam1<-pam_dat %>% pam(k=2)
+pam1$silinfo$avg.width
+
+final <- inarr %>% mutate(cluster = as.factor(pam1$clustering))
+
+ggplot(final, aes(x=Assault,y=Murder,color=cluster))+geom_point()
+
+
+library(GGally)
+ggpairs(final, columns=c("Assault","Rape","Murder","UrbanPop"), aes(color=cluster))
+
+
+plot(pam1,which=2)
+
+```
+
+*The first graph demonstrates that it is ideal to cluster the data by 2 (the peak). The second graph visualizes, in two dimensions, and colors by cluster of all four variables. Because this is only seen on a two dimensional level, it is difficult to decipher how some points were decided between cluster 1 and cluster 2 when the values are near each other on the two dimensional graph. For the graph using ‘ggpairs’,  this is taking 'inarr' and plots all possible scatterplots. Each scatterplot is showing a slice of a four dimensional space. For dimensions related to crime types, the first cluster of states has the lowest rap-related arrests, murder-related arrests. For the dimensions that involve the percent of urban population, the dimensions that had lower crime-related arrests had a wider range of UrbanPop. The two clusters have an average silhouette width of 0.58 and 0.60, so this means that it is a reasonable structure for clustering. *
+
+
+
+
+```{R, echo=F}
+## DO NOT DELETE THIS BLOCK!
+sessionInfo()
+Sys.time()
+Sys.info()
+```
